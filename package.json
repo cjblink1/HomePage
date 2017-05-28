@@ -4,9 +4,10 @@
   "description": "Contains Connor's most used links",
   "main": "index.js",
   "scripts": {
-    "build": "",
-    "test": "",
-    "tslint": "tslint -p tsconfig.json"
+    "build": "tsc",
+    "test": "jest --forceExit",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "build-ts": "tsc"
   },
   "repository": {
     "type": "git",
