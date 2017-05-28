@@ -1,0 +1,19 @@
+{
+  "name": "home-page",
+  "version": "0.0.1",
+  "description": "Contains Connor's most used links",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cjblink1/HomePage.git"
+  },
+  "author": "Connor Boyle",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cjblink1/HomePage/issues"
+  },
+  "homepage": "https://github.com/cjblink1/HomePage#readme"
+}
