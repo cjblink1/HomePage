@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/cjblink1/HomePage/issues"
   },
-  "homepage": "https://github.com/cjblink1/HomePage#readme"
+  "homepage": "https://github.com/cjblink1/HomePage#readme",
+  "devDependencies": {
+    "@types/node": "^7.0.22",
+    "jest": "^20.0.4",
+    "ts-jest": "^20.0.4",
+    "typescript": "^2.3.3"
+  }
 }
