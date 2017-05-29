@@ -68,7 +68,7 @@ describe("Postgres Connector", () => {
         .then(links => {
             fail()
             done();
-        }).catch(err => {
+        }).catch((err: PostgresError) => {
             expect(err).not.toBeNull();
             expect(err.error).toBe(errorResult.error);
             expect(err.detail).toBe(errorResult.detail);
