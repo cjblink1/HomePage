@@ -16,7 +16,7 @@ describe("Postgres Connector", () => {
         var queryResult: pg.QueryResult =  {
             command: "", rowCount: 3, rows: ["Nice", "Work", "Connor"], oid: 0
         }
-        poolMock.setup(x => x.query(TypeMoq.It.isValue("SELECT get_links_of_user(u_auth := $1)"),
+        poolMock.setup(x => x.query(TypeMoq.It.isValue("SELECT * FROM get_links_of_user(u_auth := $1)"),
                                       TypeMoq.It.isValue(["validAuthParam"])))
                                       .returns(() => Promise.resolve(queryResult));
         postgresConnector = new PostgresConnector(poolMock.object);
@@ -35,7 +35,7 @@ describe("Postgres Connector", () => {
         var queryResult: pg.QueryResult =  {
             command: "", rowCount: 3, rows: expectedValues, oid: 0
         };
-        poolMock.setup(x => x.query(TypeMoq.It.isValue("SELECT get_links_of_user(u_auth := $1)"),
+        poolMock.setup(x => x.query(TypeMoq.It.isValue("SELECT * FROM get_links_of_user(u_auth := $1)"),
                                       TypeMoq.It.isValue(["validAuthParam"])))
                                       .returns(() => Promise.resolve(queryResult));
         postgresConnector = new PostgresConnector(poolMock.object);
