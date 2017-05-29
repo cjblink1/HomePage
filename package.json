@@ -8,7 +8,8 @@
     "test": "jest --forceExit --coverage",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "build-ts": "tsc",
-    "coverage": "cat ./coverage/lcov.info | coveralls"
+    "coverage": "cat ./coverage/lcov.info | coveralls",
+    "start": "npm run build && node ./dist/main.js"
   },
   "repository": {
     "type": "git",
