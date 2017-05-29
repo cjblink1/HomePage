@@ -22,4 +22,11 @@ describe("Postgres Connector", () => {
             done();
         });
     });
+
+    it("testGetAllLinks", (done: any) => {
+        postgresConnector.getAllLinks((links) => {
+            expect(links).not.toBeNull();
+            done();
+        });
+    })
 });
