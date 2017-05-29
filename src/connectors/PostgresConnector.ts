@@ -8,9 +8,9 @@ export class PostgresConnector {
         this.pool = pool;
     }
 
-    public getAllLinks(authParam: string): Promise<any[]> {
+    public getLinksOfUser(authParam: string): Promise<any[]> {
         return new Promise((resolve, reject) => {
-            this.pool.query("SELECT get_all_links(auth := $1)", [authParam])
+            this.pool.query("SELECT get_links_of_user(u_auth := $1)", [authParam])
             .then((result: pg.QueryResult) => {
                 resolve(result.rows);
             });
