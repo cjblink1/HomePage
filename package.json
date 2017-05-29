@@ -4,7 +4,7 @@
   "description": "Contains Connor's most used links",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf dist && tsc",
     "test": "jest --forceExit --coverage",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "build-ts": "tsc",
@@ -44,6 +44,7 @@
     "jest": "^20.0.4",
     "ts-jest": "^20.0.4",
     "tslint": "^5.3.2",
+    "typemoq": "^1.6.0",
     "typescript": "^2.3.3"
   },
   "dependencies": {
