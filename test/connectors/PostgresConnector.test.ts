@@ -12,7 +12,7 @@ describe("Postgres Connector", () => {
         poolMock = TypeMoq.Mock.ofType(pg.Pool);
     });
 
-    it("testGetAllLinksNotNull", (done: any) => {
+    it("testLinksOfUserNotNull", (done: any) => {
         var queryResult: pg.QueryResult =  {
             command: "", rowCount: 3, rows: ["Nice", "Work", "Connor"], oid: 0
         }
@@ -30,7 +30,7 @@ describe("Postgres Connector", () => {
         });
     });
 
-    it("testGetAllLinksCorrectValue", (done: any) => {
+    it("testGetLinksOfUserCorrectValue", (done: any) => {
         var expectedValues = ["Nice", "Work", "Connor"];
         var queryResult: pg.QueryResult =  {
             command: "", rowCount: 3, rows: expectedValues, oid: 0
@@ -51,7 +51,22 @@ describe("Postgres Connector", () => {
         });
     });
 
-    // it("testGetAllLinksInvalidAuth", () => {
-
-    // })
+    it("testGetAllLinksInvalidAuth", (done: any) => {
+        var errorResponse: PostgresError = {
+            error: "User does not exist",
+            detail: "1"
+        }
+        poolMock.setup(x => x.query(TypeMoq.It.isValue("SELECT * FROM get_links_of_user(u_auth := $1)"),
+                                    TypeMoq.It.isValue(["invalidAuthParam"])))
+                                    .returns(() => Promise.reject(errorResponse));
+        postgresConnector.getLinksOfUser("invalidAuthParam")
+        .then(result => {
+            fail();
+            done();
+        }).catch(err => {
+            expect(err.error).toBe(errorResponse.error);
+            expect(err.detail).toBe(errorResponse.detail);
+            done();
+        });
+    })
 });
