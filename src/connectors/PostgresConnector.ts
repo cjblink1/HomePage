@@ -11,11 +11,13 @@ export class PostgresConnector {
         this.connected = false;
     }
 
-    public connect(callback: any) {
-        this.pool.connect().then(client => {
-            this.client = client;
-            this.connected = true;
-            callback();
+    public connect(): Promise<Boolean>{
+        return new Promise((resolve, reject)=> {
+            this.pool.connect().then(client => {
+                this.client = client;
+                this.connected = true;
+                resolve();
+            });
         });
     }
 
@@ -23,10 +25,12 @@ export class PostgresConnector {
         return this.connected;
     }
 
-    public getAllLinks(authParam: string, callback: any) {
-        this.client.query("SELECT get_all_links(auth := $1)", [authParam])
+    public getAllLinks(authParam: string): Promise<any[]>{
+        return new Promise((resolve, reject) => {
+            this.client.query("SELECT get_all_links(auth := $1)", [authParam])
             .then((result: pg.QueryResult) => {
-                callback(result.rows);
+                resolve(result.rows);
             });
+        });
     }
 }

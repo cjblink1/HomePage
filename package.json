@@ -37,6 +37,7 @@
     "testEnvironment": "node"
   },
   "devDependencies": {
+    "@types/core-js": "^0.9.41",
     "@types/jest": "^19.2.3",
     "@types/node": "^7.0.22",
     "@types/pg": "^6.1.40",

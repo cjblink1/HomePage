@@ -14,10 +14,14 @@ describe("Postgres Connector", () => {
         clientMock = TypeMoq.Mock.ofType(pg.Client);
         poolMock.setup(x => x.connect()).returns(() => Promise.resolve(clientMock.object));
         postgresConnector = new PostgresConnector(poolMock.object);
-        postgresConnector.connect(() => {
-            expect(postgresConnector.isConnected()).toBe(true);
-            done();
-        });
+        postgresConnector.connect()
+            .then(() => {
+                expect(postgresConnector.isConnected()).toBe(true);
+                done();
+            }).catch(() => {
+                fail();
+                done();
+            });
     });
 
     it("testGetAllLinksNotNull", (done: any) => {
@@ -31,12 +35,20 @@ describe("Postgres Connector", () => {
                                       .returns(() => Promise.resolve(queryResult));
         poolMock.setup(x => x.connect()).returns(() => Promise.resolve(clientMock.object));
         postgresConnector = new PostgresConnector(poolMock.object);
-        postgresConnector.connect(() =>  {
-            postgresConnector.getAllLinks("validAuthParam", (links) => {
-                expect(links).not.toBeNull();
+        postgresConnector.connect()
+            .then(() => {
+                postgresConnector.getAllLinks("validAuthParam")
+                    .then(links => {
+                        expect(links).not.toBeNull();
+                        done();
+                    }).catch(() => {
+                        fail();
+                        done();
+                    })
+            }).catch(() => {
+                fail();
                 done();
             });
-        });
     });
 
     it("testGetAllLinksCorrectValue", (done: any) => {
@@ -51,13 +63,18 @@ describe("Postgres Connector", () => {
                                       .returns(() => Promise.resolve(queryResult));
         poolMock.setup(x => x.connect()).returns(() => Promise.resolve(clientMock.object));
         postgresConnector = new PostgresConnector(poolMock.object);
-        postgresConnector.connect(() =>  {
-            postgresConnector.getAllLinks("validAuthParam", (links) => {
-                for(var i = 0; i < links.length; i++) {
-                    expect(links[i]).toBe(expectedValues[i]);
-                }
+        postgresConnector.connect()
+            .then(() => {
+                postgresConnector.getAllLinks("validAuthParam")
+                    .then(links => {
+                        for(var i = 0; i < links.length; i++) {
+                            expect(links[i]).toBe(expectedValues[i]);
+                        }
+                        done();
+                    });
+            }).catch(() => {
+                fail();
                 done();
             });
-        });
     });
 });
