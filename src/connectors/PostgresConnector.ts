@@ -23,7 +23,10 @@ export class PostgresConnector {
         return this.connected;
     }
 
-    public getAllLinks(callback: any) {
-        callback([]);
+    public getAllLinks(authParam: string, callback: any) {
+        this.client.query("SELECT get_all_links(auth := $1)", [authParam])
+            .then((result: pg.QueryResult) => {
+                callback(result.rows);
+            });
     }
 }
