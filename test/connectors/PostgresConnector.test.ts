@@ -23,7 +23,7 @@ describe("Postgres Connector", () => {
         });
     });
 
-    it("testGetAllLinks", (done: any) => {
+    it("testGetAllLinksNotNull", (done: any) => {
         postgresConnector.getAllLinks((links) => {
             expect(links).not.toBeNull();
             done();

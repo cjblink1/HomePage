@@ -22,4 +22,8 @@ export class PostgresConnector {
     public isConnected(): boolean {
         return this.connected;
     }
+
+    public getAllLinks(callback: any) {
+        callback([]);
+    }
 }
