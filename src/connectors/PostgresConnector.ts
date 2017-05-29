@@ -13,7 +13,14 @@ export class PostgresConnector {
             this.pool.query("SELECT * FROM get_links_of_user(u_auth := $1)", [authParam])
             .then((result: pg.QueryResult) => {
                 resolve(result.rows);
+            }).catch((error) => {
+                reject(error);
             });
         });
     }
+}
+
+export interface PostgresError {
+    error: string;
+    detail: string;
 }

@@ -1,7 +1,7 @@
 
 import * as pg from 'pg';
 import * as TypeMoq from 'typemoq';
-import { PostgresConnector } from "../../src/connectors/PostgresConnector";
+import { PostgresConnector, PostgresError } from "../../src/connectors/PostgresConnector";
 
 describe("Postgres Connector", () => {
 
@@ -10,6 +10,10 @@ describe("Postgres Connector", () => {
 
     beforeEach(() => {
         poolMock = TypeMoq.Mock.ofType(pg.Pool);
+    });
+
+    afterEach(() => {
+        poolMock = null;
     });
 
     it("testLinksOfUserNotNull", (done: any) => {
@@ -52,20 +56,22 @@ describe("Postgres Connector", () => {
     });
 
     it("testGetAllLinksInvalidAuth", (done: any) => {
-        var errorResponse: PostgresError = {
-            error: "User does not exist",
+        var errorResult: PostgresError = {
+            error: "User is not defined",
             detail: "1"
         }
         poolMock.setup(x => x.query(TypeMoq.It.isValue("SELECT * FROM get_links_of_user(u_auth := $1)"),
-                                    TypeMoq.It.isValue(["invalidAuthParam"])))
-                                    .returns(() => Promise.reject(errorResponse));
+                                      TypeMoq.It.isValue(["invalidAuthParam"])))
+                                      .returns(() => Promise.reject(errorResult));
+        postgresConnector = new PostgresConnector(poolMock.object);
         postgresConnector.getLinksOfUser("invalidAuthParam")
-        .then(result => {
-            fail();
+        .then(links => {
+            fail()
             done();
         }).catch(err => {
-            expect(err.error).toBe(errorResponse.error);
-            expect(err.detail).toBe(errorResponse.detail);
+            expect(err).not.toBeNull();
+            expect(err.error).toBe(errorResult.error);
+            expect(err.detail).toBe(errorResult.detail);
             done();
         });
     })
