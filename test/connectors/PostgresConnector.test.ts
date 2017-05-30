@@ -1,7 +1,7 @@
 
 import * as pg from 'pg';
 import * as TypeMoq from 'typemoq';
-import { PostgresConnector, PostgresError } from "../../src/connectors/PostgresConnector";
+import { PostgresConnector, IPostgresError } from "../../src/connectors/PostgresConnector";
 
 describe("Postgres Connector", () => {
 
@@ -58,7 +58,7 @@ describe("Postgres Connector", () => {
         });
 
         it("testGetAllLinksInvalidAuth", (done: any) => {
-            var errorResult: PostgresError = {
+            var errorResult: IPostgresError = {
                 error: "User is not defined",
                 detail: "1"
             }
@@ -70,7 +70,7 @@ describe("Postgres Connector", () => {
             .then(links => {
                 fail()
                 done();
-            }).catch((err: PostgresError) => {
+            }).catch((err: IPostgresError) => {
                 expect(err).not.toBeNull();
                 expect(err.error).toBe(errorResult.error);
                 expect(err.detail).toBe(errorResult.detail);
@@ -111,7 +111,7 @@ describe("Postgres Connector", () => {
         });
 
         it("testCreateLinkInvalidAuth", (done: any) => {
-            var errorResult: PostgresError = {
+            var errorResult: IPostgresError = {
                 error: "User is not defined",
                 detail: "1"
             }

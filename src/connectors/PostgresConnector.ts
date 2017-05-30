@@ -11,7 +11,7 @@ export class PostgresConnector {
     public getLinksOfUser(authParam: string): Promise<any[]> {
         return new Promise<any[]>((resolve, reject) => {
             this.pool.query("SELECT * FROM get_links_of_user(u_auth := $1)", [authParam])
-            .then(result => resolve(result.rows), reject);
+            .then((result) => resolve(result.rows), reject);
         });
     }
 
@@ -21,7 +21,7 @@ export class PostgresConnector {
     }
 }
 
-export interface PostgresError {
+export interface IPostgresError {
     error: string;
     detail: string;
 }
