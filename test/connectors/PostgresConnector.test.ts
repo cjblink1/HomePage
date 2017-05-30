@@ -109,5 +109,26 @@ describe("Postgres Connector", () => {
                 done();
             });
         });
+
+        it("testCreateLinkInvalidAuth", (done: any) => {
+            var errorResult: PostgresError = {
+                error: "User is not defined",
+                detail: "1"
+            }
+            poolMock.setup(x => x.query(TypeMoq.It.isValue("SELECT create_link(link_name := $1, link_url := $2, u_auth := $3)"),
+                                        TypeMoq.It.isValue(["validLinkName", "http://validLink.url", "invalidAuthParam"])))
+                                        .returns(() => Promise.reject(errorResult));
+            postgresConnector = new PostgresConnector(poolMock.object);
+            postgresConnector.createLink("validLinkName", "http://validLink.url", "invalidAuthParam")
+            .then(result => {
+                fail();
+                done();
+            }).catch(err => {
+                expect(err).not.toBeNull();
+                expect(err.error).toBe(errorResult.error);
+                expect(err.detail).toBe(errorResult.detail);
+                done();
+            });
+        });
     });
 });
