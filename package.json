@@ -32,6 +32,7 @@
     "transform": {
       "^.+\\.(ts)$": "./node_modules/ts-jest/preprocessor.js"
     },
+    "mapCoverage": true,
     "testMatch": [
       "**/test/**/*.test.(ts|js)"
     ],
